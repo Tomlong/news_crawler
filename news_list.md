@@ -28,4 +28,28 @@ http://www.chinanews.com/scroll-news/2018/1205/news.shtml
 ### 缺點:
 - 需parse出網址
 
+## 封面(非自家媒體) http://www.thecover.cn/
 
+- 一天新聞量: 450-550
+
+### 優點:
+- 新聞類別多
+- 格式統一
+
+### 缺點:
+- 文章沒有tag
+- 需找出url生成的規律，才能找出所有文章
+
+## 人民網(非自家媒體) http://news.people.com.cn/
+- Crawler source:
+```sh
+http://news.people.com.cn/210801/211150/index.js? + (time)
+```
+- 一天新聞量: 900-1000則
+
+### 優點:
+- 新聞量大
+- 格式統一
+
+### 缺點:
+- 需找出source call出以前文章的方法

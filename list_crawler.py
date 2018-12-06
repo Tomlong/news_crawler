@@ -1,8 +1,13 @@
+# encoding=utf-8
+
 import os
 import ast
 import requests
 import json
 import time
+
+import sys  
+  
 
 
 def build_dic(dic):
@@ -29,12 +34,15 @@ def update_news_list(now_news_dic):
     else:
         news_list = json.loads(open('news_list.json').read())
     update_list = set(now_news_dic.keys())-set(news_list.keys()) 
-    print (update_list)
+    #print (update_list)
     #Update news list
+    #print (now_news_dic)
+    
     for key in update_list:
-        news_list[key]['url'] = now_news_dic['key']['url']
-        news_list[key]['date'] = now_news_dic['key']['date']
-        news_list[key]['title'] = now_news_dic['key']['title']
+        news_list[key] = {}
+        news_list[key]['url'] = now_news_dic[key]['url']
+        news_list[key]['date'] = now_news_dic[key]['date']
+        news_list[key]['title'] = now_news_dic[key]['title']
         
     news_list_json = json.dumps(news_list)
     f = open('news_list.json','w')
@@ -43,6 +51,7 @@ def update_news_list(now_news_dic):
     
     #Update job list
     f = open('jobs_list.txt','a')
+    print ("Update "+str(len(update_list))+ " news")
     for key in update_list:
         f.write(key+'\n')
     f.close()
@@ -57,9 +66,12 @@ def list_crawler():
     update_news_list(now_news_dic)
 
 def main():
+    print ("開始")
     while 1:
+        print ("Starting Crawl news list")
         list_crawler()
         #sleep 20 miniutes
+        print ("Sleep")
         time.sleep(1200)
 
 if __name__ == '__main__':

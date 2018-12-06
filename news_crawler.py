@@ -5,7 +5,7 @@ import requests
 import json
 import time
 
-def read_and_delete_job()  
+def read_and_delete_job():  
     job = open('jobs_list.txt','r')
     jobs = job.readlines()
     now_job = jobs[0].rstrip('\n')
@@ -16,9 +16,11 @@ def read_and_delete_job()
     return now_job
 
 def news_crawler():
+    
     news_list = json.loads(open('news_list.json').read())
     job_id = read_and_delete_job()
     if job_id =='':
+        
         return False
     print("Crawl ",job_id)
     html = requests.get(news_list[job_id]['url']).text
@@ -28,8 +30,12 @@ def news_crawler():
     return True
 def main():
     
-    while news_crawler():
-        time.sleep(2)
+    while 1:
+        if news_crawler():
+            time.sleep(2)
+        else:
+            print ("No news could crawl.\n Wait for job list.")
+            time.sleep(300)
 
 if __name__ == '__main__':
     main()

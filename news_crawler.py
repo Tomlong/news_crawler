@@ -8,6 +8,12 @@ import time
 def read_and_delete_job():  
     job = open('jobs_list.txt','r')
     jobs = job.readlines()
+
+    #No jobs to do
+    if len(jobs) == 0:
+        return jobs
+
+    #Get job id and remove from list
     now_job = jobs[0].rstrip('\n')
     del jobs[0]
     job = open('jobs_list.txt','w')
@@ -17,11 +23,13 @@ def read_and_delete_job():
 
 def news_crawler():
     
-    news_list = json.loads(open('news_list.json').read())
-    job_id = read_and_delete_job()
-    if job_id =='':
-        
+    news_list = json.loads(open('news_list.json').read())  
+    job_id = read_and_delete_job() 
+
+    # Check whether get job
+    if len(job_id) == 0:    
         return False
+    
     print("Crawl ",job_id)
     html = requests.get(news_list[job_id]['url']).text
     file = open('news_html/'+job_id+'.txt','w')
@@ -29,6 +37,7 @@ def news_crawler():
     file.close()
     return True
 def main():
+    
     if not os.path.isdir('news_html/'):
         os.mkdir('news_html/')
     while 1:
@@ -36,11 +45,11 @@ def main():
             if news_crawler():
                 time.sleep(2)
             else:
-                print ("No news could crawl.\n Wait for job list.")
-                time.sleep(300)
+                print ("No news could crawl.\nWait for job list.")
+                time.sleep(60)
         except:
             print ("Crawl news error!")
-            time.sleep(300)
+            time.sleep(20)
 if __name__ == '__main__':
     main()
 

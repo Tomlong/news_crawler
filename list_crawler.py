@@ -12,6 +12,7 @@ import sys
 
 def build_dic(dic):
     new_dic = {}
+    #Dictionary: key - id, value - url, date, title
     for now_dic in dic:
         key = now_dic['id']
         new_dic[key] = {}
@@ -21,6 +22,7 @@ def build_dic(dic):
     return new_dic    
 
 def update_news_list(now_news_dic):
+    #Initialize the news_list and jobs_list
     if not(os.path.isfile('news_list.json')):
         print ("Building news list & jobs list")
         jsonFile = open("news_list.json", "w")
@@ -32,13 +34,12 @@ def update_news_list(now_news_dic):
             f.write(key+'\n')
         f.close()
         return
+
     else:
         news_list = json.loads(open('news_list.json').read())
     update_list = set(now_news_dic.keys())-set(news_list.keys()) 
-    #print (update_list)
-    #Update news list
-    #print (now_news_dic)
     
+    #Update latest news to news_list
     for key in update_list:
         news_list[key] = {}
         news_list[key]['url'] = now_news_dic[key]['url']
@@ -58,12 +59,13 @@ def update_news_list(now_news_dic):
     f.close()
     
 def list_crawler():
+
     now_time = int(time.time()*1000)
     now_news_list = requests.get('http://news.people.com.cn/210801/211150/index.js?_='+str(now_time))
     now_news_dic = ast.literal_eval(now_news_list.text)['items']
-    #print (now_news_dic)
+    #Build own dictionary format
     now_news_dic = build_dic(now_news_dic)
-    #print (now_news_dic)
+    #Update news_list and jobs_list
     update_news_list(now_news_dic)
 
 def main():

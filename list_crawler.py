@@ -68,7 +68,7 @@ def list_crawler():
 
 def main():
     print ("開始")
-    while 1
+    while 1:
         try:
             print ("Starting Crawl news list")
             list_crawler()

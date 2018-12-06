@@ -29,7 +29,8 @@ def news_crawler():
     file.close()
     return True
 def main():
-    
+    if not os.path.isdir('news_html/'):
+        os.mkdir('news_html/')
     while 1:
         if news_crawler():
             time.sleep(2)

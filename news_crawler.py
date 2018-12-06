@@ -32,12 +32,15 @@ def main():
     if not os.path.isdir('news_html/'):
         os.mkdir('news_html/')
     while 1:
-        if news_crawler():
-            time.sleep(2)
-        else:
-            print ("No news could crawl.\n Wait for job list.")
+        try:
+            if news_crawler():
+                time.sleep(2)
+            else:
+                print ("No news could crawl.\n Wait for job list.")
+                time.sleep(300)
+        except:
+            print ("Crawl news error!")
             time.sleep(300)
-
 if __name__ == '__main__':
     main()
 

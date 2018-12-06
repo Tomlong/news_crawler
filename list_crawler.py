@@ -22,6 +22,7 @@ def build_dic(dic):
 
 def update_news_list(now_news_dic):
     if not(os.path.isfile('news_list.json')):
+        print ("Building news list & jobs list")
         jsonFile = open("news_list.json", "w")
         jsonFile.write(json.dumps(now_news_dic))
         jsonFile.close()
@@ -67,12 +68,15 @@ def list_crawler():
 
 def main():
     print ("開始")
-    while 1:
-        print ("Starting Crawl news list")
-        list_crawler()
-        #sleep 20 miniutes
-        print ("Sleep")
-        time.sleep(1200)
-
+    while 1
+        try:
+            print ("Starting Crawl news list")
+            list_crawler()
+            #sleep 20 miniutes
+            print ("Sleep")
+            time.sleep(1200)
+        except:
+            print("Crawl news list error!")
+            time.sleep(300)
 if __name__ == '__main__':
     main()

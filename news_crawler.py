@@ -32,7 +32,7 @@ def news_crawler():
     
     print("Crawl ",job_id)
     html = requests.get(news_list[job_id]['url']).text
-    file = open('news_html/'+job_id+'.txt','w')
+    file = open('news_html/'+job_id+'.html','w')
     file.writelines(html)
     file.close()
     return True

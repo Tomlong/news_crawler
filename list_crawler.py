@@ -62,14 +62,13 @@ def list_crawler():
 
     now_time = int(time.time()*1000)
     now_news_list = requests.get('http://news.people.com.cn/210801/211150/index.js?_='+str(now_time))
-    now_news_dic = ast.literal_eval(now_news_list.text)['items']
+    now_news_dic = json.loads(now_news_list.text)['items']
     #Build own dictionary format
     now_news_dic = build_dic(now_news_dic)
     #Update news_list and jobs_list
     update_news_list(now_news_dic)
 
 def main():
-    print ("開始")
     while 1:
         try:
             print ("Starting Crawl news list")

@@ -50,9 +50,9 @@ def extract_relative(soup):
                     now_dic = {}
                     now_dic['title'] = now_relative.find('strong').string
                     if now_relative.find('strong').next_sibling == '\u3000\u3000':
-                        now_dic['description'] = now_relative.find('strong').next_sibling.next_sibling.text
+                        now_dic['description'] = now_relative.find('strong').next_sibling.next_sibling.text.replace('\u3000\u3000',' ')
                     else:      
-                        now_dic['description'] = now_relative.find('strong').next_sibling
+                        now_dic['description'] = now_relative.find('strong').next_sibling.replace('\u3000\u3000',' ')
                     now_dic['label'] = extract_label(soup)
                     html_pattern = re.compile(r'[\d]{8}\.html')
                     now_dic['id'] = html_pattern.search(now_relative.find('a')["href"]).group()[:8]
@@ -64,9 +64,9 @@ def extract_relative(soup):
                     now_dic = {}
                     now_dic['title'] = now_relative.find('strong').string
                     if now_relative.find('strong').next_sibling == '\u3000\u3000':
-                        now_dic['description'] = now_relative.find('strong').next_sibling.next_sibling.text
+                        now_dic['description'] = now_relative.find('strong').next_sibling.next_sibling.text.replace('\u3000\u3000',' ')
                     else:
-                        now_dic['description'] = now_relative.find('strong').next_sibling
+                        now_dic['description'] = now_relative.find('strong').next_sibling.replace('\u3000\u3000',' ')
                     now_dic['label'] = extract_label(soup)
                     html_pattern = re.compile(r'[\d]{8}\.html')
                     now_dic['id'] = html_pattern.search(now_relative.find('a')["href"]).group()[:8]
@@ -79,9 +79,9 @@ def extract_relative(soup):
                 now_dic = {}
                 now_dic['title'] = now_relative.text
                 if now_relative.next_sibling == '\u3000\u3000':
-                    now_dic['description'] = now_relative.next_sibling.next_sibling.text
+                    now_dic['description'] = now_relative.next_sibling.next_sibling.text.replace('\u3000\u3000',' ')
                 else:      
-                    now_dic['description'] = now_relative.next_sibling
+                    now_dic['description'] = now_relative.next_sibling.replace('\u3000\u3000',' ')
                 now_dic['label'] = extract_label(soup)
                 html_pattern = re.compile(r'[\d]{8}\.html')       
                 now_dic['id'] = html_pattern.search(now_id["href"]).group()[:8]

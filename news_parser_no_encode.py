@@ -138,8 +138,9 @@ def parser(filename):
                 f.write(data_json)
                 f.close()
             except:
-                #dst = 'parsed_error_html/'
-                #shutil.move(src,dst)
+                print(now_name,"parsed error")
+                dst = 'parsed_error_html/'
+                shutil.move(src,dst)
                 pass
 
 def main(filename):

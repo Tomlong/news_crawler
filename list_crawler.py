@@ -73,9 +73,9 @@ def main():
         try:
             print ("Starting Crawl news list")
             list_crawler()
-            #sleep 20 miniutes
+            #sleep 5 miniutes
             print ("Sleep")
-            time.sleep(1200)
+            time.sleep(300)
         except:
             print("Crawl news list error!")
             time.sleep(300)

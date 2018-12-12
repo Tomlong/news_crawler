@@ -8,17 +8,31 @@ from bs4 import BeautifulSoup
 
 
 
+def remove_trash(text):
+    text = text.replace('&nbsp;','')
+    text = text.replace('\u3000','')
+    text = text.replace('\t','')
+    text = text.replace('\n','')
+    return text
 def extract_text(soup):
+    
     if len(soup.find_all(class_="box01"))!=0:
-        text=''
-        for text0 in soup.find_all(class_="box_con")[0].stripped_strings:
-            text=text+text0
+       
+        if soup.find_all(class_="box_con"):
+            text=''
+            for text0 in soup.find_all(class_="box_con")[0].stripped_strings:
+                text=text+text0
+        
+        elif len(soup.find(class_='gray box_text')) != 0:
+            text = soup.find(class_='gray box_text').text
+                 
     else:
         text=''
         for text_string in soup.find_all(style="text-indent: 2em"):
             for text0 in text_string.stripped_strings:
-                text+=text0                
-    return text.replace('\u3000\u3000',' ')
+                text+=text0  
+                
+    return remove_trash(text)
 
 def extract_title(soup):
     return soup.title.string.split('--')[0]
@@ -27,7 +41,7 @@ def extract_label(soup):
     return soup.title.string.split('--')[1]
 
 def extract_description(soup):
-    return soup.find("meta",{"name":"description"})['content'].replace('\u3000\u3000',' ')
+    return remove_trash(soup.find("meta",{"name":"description"})['content'])
 
 def extract_date(soup):
     return soup.find("meta",{"name":"publishdate"})['content']
@@ -50,9 +64,9 @@ def extract_relative(soup):
                     now_dic = {}
                     now_dic['title'] = now_relative.find('strong').string
                     if now_relative.find('strong').next_sibling == '\u3000\u3000':
-                        now_dic['description'] = now_relative.find('strong').next_sibling.next_sibling.text.replace('\u3000\u3000',' ')
+                        now_dic['description'] = remove_trash(now_relative.find('strong').next_sibling.next_sibling.text)
                     else:      
-                        now_dic['description'] = now_relative.find('strong').next_sibling.replace('\u3000\u3000',' ')
+                        now_dic['description'] = remove_trash(now_relative.find('strong').next_sibling)
                     now_dic['label'] = extract_label(soup)
                     html_pattern = re.compile(r'[\d]{8}\.html')
                     now_dic['id'] = html_pattern.search(now_relative.find('a')["href"]).group()[:8]
@@ -64,9 +78,9 @@ def extract_relative(soup):
                     now_dic = {}
                     now_dic['title'] = now_relative.find('strong').string
                     if now_relative.find('strong').next_sibling == '\u3000\u3000':
-                        now_dic['description'] = now_relative.find('strong').next_sibling.next_sibling.text.replace('\u3000\u3000',' ')
+                        now_dic['description'] = remove_trash(now_relative.find('strong').next_sibling.next_sibling.text)
                     else:
-                        now_dic['description'] = now_relative.find('strong').next_sibling.replace('\u3000\u3000',' ')
+                        now_dic['description'] = remove_trash(now_relative.find('strong').next_sibling)
                     now_dic['label'] = extract_label(soup)
                     html_pattern = re.compile(r'[\d]{8}\.html')
                     now_dic['id'] = html_pattern.search(now_relative.find('a')["href"]).group()[:8]
@@ -79,9 +93,9 @@ def extract_relative(soup):
                 now_dic = {}
                 now_dic['title'] = now_relative.text
                 if now_relative.next_sibling == '\u3000\u3000':
-                    now_dic['description'] = now_relative.next_sibling.next_sibling.text.replace('\u3000\u3000',' ')
+                    now_dic['description'] = remove_trash(now_relative.next_sibling.next_sibling.text)
                 else:      
-                    now_dic['description'] = now_relative.next_sibling.replace('\u3000\u3000',' ')
+                    now_dic['description'] = remove_trash(now_relative.next_sibling)
                 now_dic['label'] = extract_label(soup)
                 html_pattern = re.compile(r'[\d]{8}\.html')       
                 now_dic['id'] = html_pattern.search(now_id["href"]).group()[:8]
